@@ -25,8 +25,8 @@ function Get-ChangedModule {
 function Publish-ChangedModule {
   [CmdletBinding(SupportsShouldProcess = $true)]
   param(
-    [Parameter()]
-    [string]$fromCommit,
+    [Parameter(Mandatory = $false)]
+    [string]$fromCommit = $null,
 
     [Parameter(Mandatory = $false)]
     [string]$toBranch = 'main',
