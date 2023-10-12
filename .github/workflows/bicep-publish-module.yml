@@ -33,9 +33,10 @@ jobs:
     - name: Upload changed Bicep files
       run: |
         Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
+        git branch
         if ("${{ github.event_name }}" -eq "push") {
           Publish-ChangedModule -fromCommit "HEAD~1" -toBranch 'main' -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules"
         } elseif ("${{ github.event_name }}" -eq "pull_request") {
-          Publish-ChangedModule -toBranch "${{ github.base_ref }}" -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -WhatIf
+          Publish-ChangedModule -fromCommit "${{ github.event.pull_request.base.sha }}" -toCommit "${{ github.event.pull_request.head.sha }}" -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -WhatIf
         }
       shell: pwsh

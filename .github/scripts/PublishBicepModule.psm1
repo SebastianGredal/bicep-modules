@@ -4,14 +4,14 @@ function Get-ChangedModule {
     [string]$fromCommit,
 
     [Parameter()]
-    [string]$toBranch = 'main'
+    [string]$toCommit
   )
 
   # Get the root directory of the git repository
   $rootDir = git rev-parse --show-toplevel
 
   # Get the list of changed files
-  $changedFiles = git diff --name-only $fromCommit $toBranch
+  $changedFiles = git diff --name-only $fromCommit $toCommit
 
   # Filter the list to only include .bicep files
   $changedBicepFiles = $changedFiles | Where-Object { $_ -like '*.bicep' }
@@ -26,10 +26,10 @@ function Publish-ChangedModule {
   [CmdletBinding(SupportsShouldProcess = $true)]
   param(
     [Parameter(Mandatory = $false)]
-    [string]$fromCommit = $null,
+    [string]$fromCommit,
 
     [Parameter(Mandatory = $false)]
-    [string]$toBranch = 'main',
+    [string]$toCommit,
 
     [Parameter(Mandatory = $true)]
     [string]$registryName,
@@ -39,7 +39,7 @@ function Publish-ChangedModule {
   )
 
   # Get the changed .bicep files
-  $changedBicepFiles = Get-ChangedModule -fromCommit $fromCommit -toBranch $toBranch
+  $changedBicepFiles = Get-ChangedModule -fromCommit $fromCommit -toCommit $toCommit
 
   foreach ($file in $changedBicepFiles) {
     # Get the filename without extension
@@ -72,4 +72,4 @@ function Publish-ChangedModule {
   }
 }
 Export-ModuleMember -Function Publish-ChangedModule
-#Publish-ChangedBicepFiles -registryName 'sbgbicep.azurecr.io' -toBranch main -documentationUri 'https://github.com/SebastianGredal/bicep-modules'
+#Publish-ChangedBicepFiles -registryName 'sbgbicep.azurecr.io' -toCommit main -documentationUri 'https://github.com/SebastianGredal/bicep-modules'
