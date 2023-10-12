@@ -39,7 +39,7 @@ function Publish-ChangedModule {
   )
 
   # Get the changed .bicep files
-  $changedBicepFiles = Get-ChangedModule -fromBranch $fromBranch -toBranch $toBranch
+  $changedBicepFiles = Get-ChangedModule -fromCommit $fromCommit -toBranch $toBranch
 
   foreach ($file in $changedBicepFiles) {
     # Get the filename without extension
