@@ -26,10 +26,10 @@ function Publish-ChangedModule {
   [CmdletBinding(SupportsShouldProcess = $true)]
   param(
     [Parameter(Mandatory = $false)]
-    [string]$fromCommit,
+    [string]$fromCommit = $null,
 
     [Parameter(Mandatory = $false)]
-    [string]$toCommit,
+    [string]$toCommit = $null,
 
     [Parameter(Mandatory = $true)]
     [string]$registryName,
@@ -43,10 +43,10 @@ function Publish-ChangedModule {
 
   foreach ($file in $changedBicepFiles) {
     # Get the filename without extension
-    $filename = [System.IO.Path]::GetFileNameWithoutExtension($file)
+    $filename = ([System.IO.Path]::GetFileNameWithoutExtension($file)).ToLower()
 
     # Get the parent folder name
-    $parentFolder = Split-Path $file -Parent | Split-Path -Leaf
+    $parentFolder = (Split-Path $file -Parent | Split-Path -Leaf).ToLower()
 
     # Check if the module exists in the ACR
     $existingTags = az acr repository show-tags --name $registryName --repository "$parentFolder/$filename" --output tsv 2>$null
@@ -64,7 +64,7 @@ function Publish-ChangedModule {
     }
 
     $modulePath = $parentFolder + '/' + $filename + ':' + $newVersion
-    $target = ("br:$registryName/$modulePath").ToLower()
+    $target = "br:$registryName/$modulePath"
     # Publish the .bicep file to the ACR with the semver tag
     if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $newVersion")) {
       az bicep publish --file $file --target $target --documentationUri $documentationUri
