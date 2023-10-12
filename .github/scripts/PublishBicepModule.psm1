@@ -66,10 +66,9 @@ function Publish-ChangedModule {
     $modulePath = $parentFolder + '/' + $filename + ':' + $newVersion
     $target = ("br:$registryName/$modulePath").ToLower()
     # Publish the .bicep file to the ACR with the semver tag
-    if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag v$newVersion")) {
+    if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $newVersion")) {
       az bicep publish --file $file --target $target --documentationUri $documentationUri
     }
   }
 }
 Export-ModuleMember -Function Publish-ChangedModule
-#Publish-ChangedBicepFiles -registryName 'sbgbicep.azurecr.io' -toCommit main -documentationUri 'https://github.com/SebastianGredal/bicep-modules'
