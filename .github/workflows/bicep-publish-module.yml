@@ -32,7 +32,7 @@ jobs:
 
     - name: Upload changed Bicep files
       run: |
-        Import-Module .github/scripts/PublishBicepModule.psm1
+        Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
         if ("${{ github.event_name }}" -eq "push") {
           Publish-ChangedModule -fromCommit "HEAD~1" -toBranch 'main' -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules"
         } elseif ("${{ github.event_name }}" -eq "pull_request") {
