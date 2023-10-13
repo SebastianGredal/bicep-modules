@@ -88,19 +88,19 @@ function Publish-ChangedModule {
         Write-Error $_.Exception.Message
       }
     }
+    $latestVersion = $null
     if ($existingTags) {
       # If the module exists, get the latest version and compare it to the version in the .bicep file
       $latestVersion = ($existingTags).Tags.Name | Sort-Object | Select-Object -Last 1
       if ([System.Version]$latestVersion -ge [System.Version]$version) {
         Write-Error "The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
       }
-      Write-Information -MessageData "The version in the $filename.bicep file is $version, and is therefore higher than the latest version, $latestVersion in the container registry"
     }
 
     $modulePath = $parentFolder + '/' + $filename + ':' + $version
     $target = "br:$registryLoginServer/$modulePath"
     # Publish the .bicep file to the ACR with the semver tag
-    if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $version")) {
+    if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $version replacing $latestVersion as the latest version")) {
       try {
         Publish-AzBicepModule -FilePath $file -Target $target -DocumentationUri $documentationUri
       }
