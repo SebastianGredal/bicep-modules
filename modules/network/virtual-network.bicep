@@ -5,7 +5,7 @@ targetScope = 'resourceGroup'
 
 metadata name = 'Virtual Network'
 metadata description = 'Module for the Creation of a Virtual Network'
-
+metadata version = '1.0.10'
 // ----------
 // PARAMETERS
 // ----------
@@ -28,7 +28,7 @@ resource resVirtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   properties: {
     addressSpace: {
       addressPrefixes: [
-        '10.0.0.0/16'
+        '10.0.0.0/8'
       ]
     }
     subnets: [
