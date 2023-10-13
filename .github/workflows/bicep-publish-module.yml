@@ -31,11 +31,13 @@ jobs:
           enable-AzPSSession: true
 
     - name: Upload changed Bicep files
-      run: |
-        Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
-        if ("${{ github.event_name }}" -eq "push") {
-          Publish-ChangedModule -fromCommit "HEAD~1" -toBranch 'main' -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules"
-        } elseif ("${{ github.event_name }}" -eq "pull_request") {
-          Publish-ChangedModule -fromCommit "${{ github.event.pull_request.base.sha }}" -toCommit "${{ github.event.pull_request.head.sha }}" -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -WhatIf
-        }
-      shell: pwsh
+      uses: azure/powershell@v1
+      with:
+        azPSVersion: "latest"
+        inlineScript: |
+          Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
+          if ("${{ github.event_name }}" -eq "push") {
+            Publish-ChangedModule -fromCommit "HEAD~1" -toBranch 'main' -registryName ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules"
+          } elseif ("${{ github.event_name }}" -eq "pull_request") {
+            Publish-ChangedModule -fromCommit "${{ github.event.pull_request.base.sha }}" -toCommit "${{ github.event.pull_request.head.sha }}" -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -WhatIf
+          }
