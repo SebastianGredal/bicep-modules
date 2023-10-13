@@ -95,7 +95,7 @@ function Publish-ChangedModule {
       if ([System.Version]$latestVersion -ge [System.Version]$version) {
         Write-Error "The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
       }
-      Write-Information -MessageData "The latest version for file: $filename is $version, and will set as the latest replacing the previous version $latestVersion"
+      Write-Information -MessageData "The latest version for file: $filename is $version, and will be set as the latest version replacing the previous version $latestVersion"
     }
 
     $modulePath = $parentFolder + '/' + $filename + ':' + $version
