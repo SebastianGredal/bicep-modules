@@ -36,6 +36,7 @@ jobs:
         azPSVersion: "latest"
         errorActionPreference: "Stop"
         inlineScript: |
+          $InformationPreference = 'Continue'
           Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
           if ("${{ github.event_name }}" -eq "push") {
             Publish-ChangedModule -fromCommit "HEAD~1" -toCommit 'main' -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -ErrorAction Stop
