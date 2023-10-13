@@ -93,7 +93,7 @@ function Publish-ChangedModule {
       # If the module exists, get the latest version and compare it to the version in the .bicep file
       $latestVersion = ($existingTags | Sort-Object LastUpdateTime | Select-Object -Last 1).Name
       if ([System.Version]$latestVersion -ge [System.Version]$version) {
-        Write-Error "The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
+        Write-Error "MODULE VERSION: The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
       }
       Write-Information -MessageData "The latest version for file: $filename is $version, and will be set as the latest version replacing the previous version $latestVersion"
     }
@@ -109,7 +109,7 @@ function Publish-ChangedModule {
         if ($_.Exception.Message) {
           Write-Error $_.Exception.Message
         }
-        Write-Information -MessageData "Successfully published $file to $target"
+        Write-Information -MessageData "PUBLISH: Successfully published $file to $target"
       }
     }
   }
