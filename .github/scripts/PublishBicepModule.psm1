@@ -78,7 +78,7 @@ function Publish-ChangedModule {
 
     # Check if the module exists in the ACR
     try {
-      $existingTags = Get-AzContainerRegistryTag -RegistryName $registryName -Repository "$parentFolder/$filename"
+      $existingTags = (Get-AzContainerRegistryTag -RegistryName $registryName -Repository "$parentFolder/$filename").Tags
     }
     catch {
       if ($_.Exception.Message -like '*not found*') {
@@ -91,7 +91,7 @@ function Publish-ChangedModule {
     $latestVersion = $null
     if ($existingTags) {
       # If the module exists, get the latest version and compare it to the version in the .bicep file
-      $latestVersion = ($existingTags).Tags.Name | Sort-Object | Select-Object -Last 1
+      $latestVersion = ($existingTags | Sort-Object LastUpdateTime | Select-Object -Last 1).Name
       if ([System.Version]$latestVersion -ge [System.Version]$version) {
         Write-Error "The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
       }
