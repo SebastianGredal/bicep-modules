@@ -5,7 +5,7 @@ targetScope = 'resourceGroup'
 
 metadata name = 'Virtual Network'
 metadata description = 'Module for the Creation of a Virtual Network'
-metadata version = '1.0.10'
+metadata version = '1.0.11'
 // ----------
 // PARAMETERS
 // ----------
