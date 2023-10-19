@@ -7,10 +7,10 @@ metadata version = '1.0.0'
 // ----------
 // PARAMETERS
 // ----------
-@description('The Prefix to use for the naming convention')
+@description('The Prefix to use for resource naming convention')
 param parPrefix string = ''
 
-@description('The Suffix to use for the naming convention')
+@description('The Suffix to use for resource naming convention')
 param parSuffix string = ''
 
 @description('The name of the resource')
@@ -31,6 +31,9 @@ param parDdosProtectionPlanId string = ''
 @description('A list of DNS servers IP addresses. This should be a subset of the Virtual Network address space.')
 param parDnsServers array = []
 
+@description('Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.')
+param parEnableDdosProtection bool = false
+
 @description('Indicates if VM protection is enabled for all the subnets in the virtual network.')
 param parEnableVmProtection bool = false
 
@@ -48,23 +51,31 @@ param parIpAllocations array = []
 
 @description('''Array of objects of subnets in a Virtual Network. Each object contains the properties of the subnet. Possible values are:
 `name` - The name of the subnet.
-`properties` - Properties of the subnet.
-`properties.addressPrefix` - The address prefix for the subnet.
-`properties.applicationGatewayIPConfigurations` - An array of objects to the resource id of application gateway.
-`properties.defaultOutboundAccess` - Indicates whether default outbound rules are allowed or denied. Possible values are: 'true', 'false'.
-`properties.delegations` - An array of objects to the resource id of the delegations on the subnet.
-`properties.ipAllocations` - An array of objects to the resource id of the ip allocations on the subnet.
-`properties.natGateway` - An object referencing the resource id of the Nat Gateway.
-`properties.networkSecurityGroup` - An object referencing the resource id of the Network Security Group.
-`properties.privateEndpointNetworkPolicies` - Enable or Disable private endpoint network policies on the subnet.
-- Possible values are: 'Enabled', 'Disabled'.  
-- Default Value: 'Disabled'.
-`properties.privateLinkServiceNetworkPolicies` - Enable or Disable private link service network policies on the subnet.
-- Possible values are: 'Enabled', 'Disabled'.
-- Default Value: 'Enabled'
-`properties.routeTable` - An object referencing the resource id of the route table.
-`properties.serviceEndpointPolicies` - An array of objects to the resource id of the service endpoint policies on the subnet.
-`properties.serviceEndpoints` - An array of objects to the resource id of the service endpoints on the subnet.
+`properties` - Object of the properties of the subnet.
+`properties.addressPrefix` - Required
+- The address prefix for the subnet.
+`properties.applicationGatewayIPConfigurations`- Optional
+- An array of objects to the resource id of application gateway.
+`properties.defaultOutboundAccess` - Optional
+- Indicates whether default outbound rules are allowed or denied. Possible values are: 'true', 'false'.
+`properties.delegations` - Optional
+- An array of objects to the resource id of the delegations on the subnet.
+`properties.ipAllocations` - Optional
+- An array of objects to the resource id of the ip allocations on the subnet.
+`properties.natGateway` - Optional
+- An object referencing the resource id of the Nat Gateway.
+`properties.networkSecurityGroup` - Optional
+- An object referencing the resource id of the Network Security Group.
+`properties.privateEndpointNetworkPolicies` - Optional
+- Enable or Disable private endpoint network policies on the subnet.
+`properties.privateLinkServiceNetworkPolicies` - Optional
+- Enable or Disable private link service network policies on the subnet.
+`properties.routeTable` - Optional
+- An object referencing the resource id of the route table.
+`properties.serviceEndpointPolicies` - Optional
+- An array of objects to the resource id of the service endpoint policies on the subnet.
+`properties.serviceEndpoints` - Optional
+- An array of objects to the resource id of the service endpoints on the subnet.
 ''')
 param parSubnets array
 
@@ -75,6 +86,13 @@ param parVirtualNetworkPeerings array = []
 // ---------
 // VARIABLES
 // ---------
+var varVirtualNetworkSubnets = reduce(resVirtualNetwork.properties.subnets, {}, (cur, next) => union(cur, { '${next.name}': {
+        id: next.id
+        name: next.name
+      }
+    }
+  )
+)
 
 // ---------
 // RESOURCES
@@ -95,7 +113,7 @@ resource resVirtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
     dhcpOptions: empty(parDnsServers) ? null : {
       dnsServers: parDnsServers
     }
-    enableDdosProtection: !empty(parDdosProtectionPlanId)
+    enableDdosProtection: empty(parDdosProtectionPlanId) ? null : parEnableDdosProtection
     enableVmProtection: parEnableVmProtection
     encryption: empty(parEncryption) ? null : {
       enabled: parEncryption.enabled
@@ -108,54 +126,9 @@ resource resVirtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   }
 }
 
-// resource resVirtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
-//   name: parName
-//   location: parLocation
-//   properties: {
-//     addressSpace: {
-//       addressPrefixes: []
-//     }
-//     subnets: [
-//       {
-//         name: ''
-//         properties: {
-//           addressPrefix: ''
-//           applicationGatewayIPConfigurations: [
-//             {
-//               id: ''
-//             }
-//           ]
-//           defaultOutboundAccess: false
-//           delegations: []
-//           ipAllocations: []
-//           natGateway: {
-//             id: ''
-//           }
-//           networkSecurityGroup: {
-//             id: ''
-//           }
-//           privateEndpointNetworkPolicies: 'Enabled'
-//           privateLinkServiceNetworkPolicies: 'Enabled'
-//           routeTable: {
-//             id: ''
-//           }
-//           serviceEndpointPolicies: [
-//             {
-//               properties: 
-//             }
-//           ]
-//           serviceEndpoints: [
-//             {
-
-//             }
-//           ]
-//         }
-//       }
-//     ]
-//   }
-// }
-
 // ----------
 //  OUTPUTS
 // ----------
 output outVirtualNetworkId string = resVirtualNetwork.id
+output outVirtualNetworkName string = resVirtualNetwork.name
+output outVirtualNetworkSubnets object = varVirtualNetworkSubnets
