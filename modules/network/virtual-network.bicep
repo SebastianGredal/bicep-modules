@@ -1,7 +1,7 @@
 targetScope = 'resourceGroup'
 
 metadata name = 'Virtual Network Module'
-metadata description = 'A module to deploy a Virtual Network'
+metadata description = 'A module used for the deployment of a Virtual Network resource.'
 metadata version = '1.0.0'
 
 // ----------
@@ -19,34 +19,36 @@ param parName string = '${parPrefix}vnet${parSuffix}'
 @description('The Azure Region to deploy the resources into.')
 param parLocation string = resourceGroup().location
 
-@description('A list of address blocks reserved for this virtual network in CIDR notation.')
+@description('A list of address blocks reserved for this Virtual Network in CIDR notation.')
 param parAddressPrefixes array
 
-@description('The BGP community associated with the virtual network.')
+@description('The BGP community associated with the Virtual Network.')
 param parVirtualNetworkCommunity string = ''
 
-@description('The Resource Id of the DDoS Protection Plan associated with the virtual network.')
+@description('The Resource Id of the DDoS Protection Plan associated with the Virtual Network.')
 param parDdosProtectionPlanId string = ''
 
 @description('A list of DNS servers IP addresses. This should be a subset of the Virtual Network address space.')
 param parDnsServers array = []
 
-@description('Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.')
+@description('Indicates if DDoS protection is enabled for all the protected resources in the Virtual Network. It requires a DDoS protection plan associated with the resource.')
 param parEnableDdosProtection bool = false
 
-@description('Indicates if VM protection is enabled for all the subnets in the virtual network.')
+@description('Indicates if VM protection is enabled for all the subnets in the Virtual Network.')
 param parEnableVmProtection bool = false
 
-@description('''Object that indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
-`enabled` - Boolean value indicating if encryption is enabled on the virtual network.
-`enforcement` - If the encrypted VNet allows VM that does not support encryption. Possible values are: 'AllowUnencrypted', 'DropUnencrypted'.
+@description('''Object that indicates if encryption is enabled on Virtual Network and if VM without encryption is allowed in encrypted Virtual Network.
+`enabled` - Boolean value indicating if encryption is enabled on the Virtual Network.
+`enforcement` - If the encrypted Virtual Network allows VM's that does not support encryption. Possible values are: 'AllowUnencrypted', 'DropUnencrypted'.
 ''')
 param parEncryption object = {}
 
+@minValue(3)
+@maxValue(30)
 @description('The FlowTimeout value (in minutes) for the Virtual Network.')
-param parFlowTimeoutInMinutes int = -1
+param parFlowTimeoutInMinutes int = 3
 
-@description('Array of objects of IpAllocation which reference this VNET. Each object contains the resource id of the resource which is using this VNET.')
+@description('Array of objects of IpAllocation which reference this Virtual Network. Each object contains the resource id of the resource which is using this Virtual Network.')
 param parIpAllocations array = []
 
 @description('''Array of objects of subnets in a Virtual Network. Each object contains the properties of the subnet. Possible values are:
@@ -107,7 +109,7 @@ resource resVirtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
       enabled: parEncryption.enabled
       enforcement: parEncryption.enforcement
     }
-    flowTimeoutInMinutes: parFlowTimeoutInMinutes == -1 ? null : parFlowTimeoutInMinutes
+    flowTimeoutInMinutes: parFlowTimeoutInMinutes == 3 ? null : parFlowTimeoutInMinutes
     ipAllocations: empty(parIpAllocations) ? null : parIpAllocations
     subnets: parSubnets
     virtualNetworkPeerings: empty(parVirtualNetworkPeerings) ? null : parVirtualNetworkPeerings
