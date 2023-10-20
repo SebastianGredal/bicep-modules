@@ -8,7 +8,7 @@ Parameter name | Required | Description
 -------------- | -------- | -----------
 parPrefix      | No       | The Prefix to use for resource naming convention.
 parSuffix      | No       | The Suffix to use for resource naming convention.
-parName        | No       | The name of the resource.
+parName        | No       | The Name of the resource.
 parLocation    | No       | The Azure Region to deploy the resources into.
 parAddressPrefixes | Yes      | A list of address blocks reserved for this Virtual Network in CIDR notation.
 parVirtualNetworkCommunity | No       | The BGP community associated with the Virtual Network.
@@ -38,7 +38,7 @@ The Suffix to use for resource naming convention.
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The name of the resource.
+The Name of the resource.
 
 - Default value: `[format('{0}vnet{1}', parameters('parPrefix'), parameters('parSuffix'))]`
 

@@ -42,7 +42,7 @@ jobs:
         inlineScript: |
           Import-Module -Name ./.github/scripts/PublishBicepModule.psm1
           if ("${{ github.event_name }}" -eq "push") {
-            Publish-ChangedModule -fromCommit "HEAD~1" -toCommit 'main' -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -ErrorAction Stop -InformationAction Continue
+            Publish-ChangedModule -fromCommit "HEAD~1" -toCommit 'main' -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -ErrorAction Stop -InformationAction Continue
           } elseif ("${{ github.event_name }}" -eq "pull_request") {
-            Publish-ChangedModule -fromCommit "${{ github.event.pull_request.base.sha }}" -toCommit "${{ github.event.pull_request.head.sha }}" -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -documentationUri "https://github.com/SebastianGredal/bicep-modules" -WhatIf -ErrorAction Stop -InformationAction Continue
+            Publish-ChangedModule -fromCommit "${{ github.event.pull_request.base.sha }}" -toCommit "${{ github.event.pull_request.head.sha }}" -registryLoginServer ${{ secrets.CONTAINER_REGISTRY }} -WhatIf -ErrorAction Stop -InformationAction Continue
           }
