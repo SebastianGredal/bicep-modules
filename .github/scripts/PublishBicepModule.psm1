@@ -106,7 +106,7 @@ function Publish-ChangedModule {
     # Publish the .bicep file to the ACR with the semver tag
     if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $version")) {
       try {
-        Publish-AzBicepModule -FilePath $file -Target $target -DocumentationUri $documentationUri
+        Publish-AzBicepModule -FilePath $file -Target $target# -DocumentationUri $documentationUri
       }
       catch {
         if ($_.Exception.Message) {
