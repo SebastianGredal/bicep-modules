@@ -7,13 +7,13 @@ metadata version = '1.0.0'
 // ----------
 // PARAMETERS
 // ----------
-@description('The Prefix to use for resource naming convention')
+@description('The Prefix to use for resource naming convention.')
 param parPrefix string = ''
 
-@description('The Suffix to use for resource naming convention')
+@description('The Suffix to use for resource naming convention.')
 param parSuffix string = ''
 
-@description('The name of the resource')
+@description('The name of the resource.')
 param parName string = '${parPrefix}vnet${parSuffix}'
 
 @description('The Azure Region to deploy the resources into.')
@@ -69,8 +69,7 @@ param parIpAllocations array = []
 ''')
 param parSubnets array
 
-@description('''Array of objects of Virtual Network Peerings. Each object contains the properties of the peering. Possible values are:
-''')
+@description('Array of objects of Virtual Network Peerings. Each object contains the properties of the peering.')
 param parVirtualNetworkPeerings array = []
 
 // ---------
