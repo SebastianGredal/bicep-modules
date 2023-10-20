@@ -8,7 +8,7 @@ Parameter name | Required | Description
 -------------- | -------- | -----------
 parRoleAssignmentNameGuid | No       | A GUID representing the role assignment name.
 parRoleDefinitionId | Yes      | Role Definition Id (i.e. GUID, Reader Role Definition ID: acdd72a7-3385-48ef-bd42-f606fba81ae7)
-parAssigneePrincipalType | Yes      | Principal type of the assignee. Allowed values are 'Group' (Security Group) or 'ServicePrincipal' (Service Principal or System/User Assigned Managed Identity)
+parAssigneePrincipalType | Yes      | Principal type of the assignee.
 parAssigneeObjectId | Yes      | Object ID of groups, service principals or managed identities. For managed identities use the principal id. For service principals, use the object ID and not the app ID
 
 ### parRoleAssignmentNameGuid
@@ -29,7 +29,7 @@ Role Definition Id (i.e. GUID, Reader Role Definition ID: acdd72a7-3385-48ef-bd4
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-required-orange?style=flat-square)
 
-Principal type of the assignee. Allowed values are 'Group' (Security Group) or 'ServicePrincipal' (Service Principal or System/User Assigned Managed Identity)
+Principal type of the assignee.
 
 - Allowed values: `Group`, `ServicePrincipal`
 
