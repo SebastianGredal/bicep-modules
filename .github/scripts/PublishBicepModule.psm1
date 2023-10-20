@@ -95,7 +95,10 @@ function Publish-ChangedModule {
       if ([System.Version]$latestVersion -ge [System.Version]$version) {
         Write-Error "MODULE VERSION: The version in the $filename.bicep file is $version, and is therefore lower than or equal to the latest version, $latestVersion in the container registry"
       }
-      Write-Information -MessageData "The latest version for file: $filename is $version, and will be set as the latest version replacing the previous version $latestVersion"
+      Write-Information -MessageData "MODULE VERSION: The latest version for file: $filename is $version, and will be set as the latest version replacing the previous version $latestVersion"
+    }
+    else {
+      Write-Information -MessageData "MODULE VERSION: The module $filename does not exist in the container registry, the version $version will be set as the latest version"
     }
 
     $modulePath = $parentFolder + '/' + $filename + ':' + $version
@@ -109,7 +112,7 @@ function Publish-ChangedModule {
         if ($_.Exception.Message) {
           Write-Error $_.Exception.Message
         }
-        Write-Information -MessageData "PUBLISH: Successfully published $file to $target"
+        Write-Information -MessageData "PUBLISH: Successfully published $file to $target with version $version"
       }
     }
   }
