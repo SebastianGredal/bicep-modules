@@ -45,7 +45,7 @@ param parEncryption object = {}
 
 @minValue(3)
 @maxValue(30)
-@description('The FlowTimeout value (in minutes) for the Virtual Network.')
+@description('The FlowTimeout value (in minutes) for the Virtual Network. Set Value to 3 to disable FlowTimeout.')
 param parFlowTimeoutInMinutes int = 3
 
 @description('Array of objects of IpAllocation which reference this Virtual Network. Each object contains the resource id of the resource which is using this Virtual Network.')
