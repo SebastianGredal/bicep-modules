@@ -17,7 +17,7 @@ parDnsServers  | No       | A list of DNS servers IP addresses. This should be a
 parEnableDdosProtection | No       | Indicates if DDoS protection is enabled for all the protected resources in the Virtual Network. It requires a DDoS protection plan associated with the resource.
 parEnableVmProtection | No       | Indicates if VM protection is enabled for all the subnets in the Virtual Network.
 parEncryption  | No       | Object that indicates if encryption is enabled on Virtual Network and if VM without encryption is allowed in encrypted Virtual Network. `enabled` - Boolean value indicating if encryption is enabled on the Virtual Network. `enforcement` - If the encrypted Virtual Network allows VM's that does not support encryption. Possible values are: 'AllowUnencrypted', 'DropUnencrypted'. 
-parFlowTimeoutInMinutes | No       | The FlowTimeout value (in minutes) for the Virtual Network.
+parFlowTimeoutInMinutes | No       | The FlowTimeout value (in minutes) for the Virtual Network. Set Value to 3 to disable FlowTimeout.
 parIpAllocations | No       | Array of objects of IpAllocation which reference this Virtual Network. Each object contains the resource id of the resource which is using this Virtual Network.
 parSubnets     | Yes      | Array of objects of subnets in a Virtual Network. Each object contains the properties of the subnet. Possible values are: `name` - The name of the subnet. `properties` - Object of the properties of the subnet. `properties.addressPrefix` - The address prefix for the subnet. `properties.applicationGatewayIPConfigurations` - An array of objects to the resource id of application gateway. `properties.defaultOutboundAccess` - Indicates whether default outbound rules are allowed or denied. Possible values are: 'true', 'false'. `properties.delegations` - An array of objects to the resource id of the delegations on the subnet. `properties.ipAllocations` - An array of objects to the resource id of the ip allocations on the subnet. `properties.natGateway` - An object referencing the resource id of the Nat Gateway. `properties.networkSecurityGroup` - An object referencing the resource id of the Network Security Group. `properties.privateEndpointNetworkPolicies` - Enable or Disable private endpoint network policies on the subnet. `properties.privateLinkServiceNetworkPolicies` - Enable or Disable private link service network policies on the subnet. `properties.routeTable` - An object referencing the resource id of the route table. `properties.serviceEndpointPolicies` - An array of objects to the resource id of the service endpoint policies on the subnet. `properties.serviceEndpoints` - An array of objects to the resource id of the service endpoints on the subnet. 
 parVirtualNetworkPeerings | No       | Array of objects of Virtual Network Peerings. Each object contains the properties of the peering. Possible values are: 
@@ -103,7 +103,7 @@ Object that indicates if encryption is enabled on Virtual Network and if VM with
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The FlowTimeout value (in minutes) for the Virtual Network.
+The FlowTimeout value (in minutes) for the Virtual Network. Set Value to 3 to disable FlowTimeout.
 
 - Default value: `3`
 
