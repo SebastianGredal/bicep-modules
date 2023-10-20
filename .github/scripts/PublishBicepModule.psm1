@@ -54,7 +54,7 @@ function Publish-ChangedModule {
     [string]$toCommit = $null,
 
     [Parameter(Mandatory = $true)]
-    [string]$registryLoginServer,
+    [string]$registryLoginServer
   )
   $changedBicepFiles = Get-ChangedModule -fromCommit $fromCommit -toCommit $toCommit
 
