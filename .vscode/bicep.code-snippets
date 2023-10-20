@@ -20,7 +20,7 @@
             "param parSuffix string = ''",
             "",
             "@description('The name of the resource')"
-            "param parName string = '\\${parPrefix}-${4:resource name}-\\${parSuffix}'"
+            "param parName string = '\\${parPrefix}${4:resource name}\\${parSuffix}'"
             "",
             "@description('The Azure Region to deploy the resources into.')",
             "param parLocation string = resourceGroup().location",
