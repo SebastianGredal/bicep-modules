@@ -6,9 +6,9 @@ A module used for the deployment of a Virtual Network resource.
 
 Parameter name | Required | Description
 -------------- | -------- | -----------
-parPrefix      | No       | The Prefix to use for resource naming convention
-parSuffix      | No       | The Suffix to use for resource naming convention
-parName        | No       | The name of the resource
+parPrefix      | No       | The Prefix to use for resource naming convention.
+parSuffix      | No       | The Suffix to use for resource naming convention.
+parName        | No       | The name of the resource.
 parLocation    | No       | The Azure Region to deploy the resources into.
 parAddressPrefixes | Yes      | A list of address blocks reserved for this Virtual Network in CIDR notation.
 parVirtualNetworkCommunity | No       | The BGP community associated with the Virtual Network.
@@ -20,25 +20,25 @@ parEncryption  | No       | Object that indicates if encryption is enabled on Vi
 parFlowTimeoutInMinutes | No       | The FlowTimeout value (in minutes) for the Virtual Network. Set Value to 3 to disable FlowTimeout.
 parIpAllocations | No       | Array of objects of IpAllocation which reference this Virtual Network. Each object contains the resource id of the resource which is using this Virtual Network.
 parSubnets     | Yes      | Array of objects of subnets in a Virtual Network. Each object contains the properties of the subnet. Possible values are: `name` - The name of the subnet. `properties` - Object of the properties of the subnet. `properties.addressPrefix` - The address prefix for the subnet. `properties.applicationGatewayIPConfigurations` - An array of objects to the resource id of application gateway. `properties.defaultOutboundAccess` - Indicates whether default outbound rules are allowed or denied. Possible values are: 'true', 'false'. `properties.delegations` - An array of objects to the resource id of the delegations on the subnet. `properties.ipAllocations` - An array of objects to the resource id of the ip allocations on the subnet. `properties.natGateway` - An object referencing the resource id of the Nat Gateway. `properties.networkSecurityGroup` - An object referencing the resource id of the Network Security Group. `properties.privateEndpointNetworkPolicies` - Enable or Disable private endpoint network policies on the subnet. `properties.privateLinkServiceNetworkPolicies` - Enable or Disable private link service network policies on the subnet. `properties.routeTable` - An object referencing the resource id of the route table. `properties.serviceEndpointPolicies` - An array of objects to the resource id of the service endpoint policies on the subnet. `properties.serviceEndpoints` - An array of objects to the resource id of the service endpoints on the subnet. 
-parVirtualNetworkPeerings | No       | Array of objects of Virtual Network Peerings. Each object contains the properties of the peering. Possible values are: 
+parVirtualNetworkPeerings | No       | Array of objects of Virtual Network Peerings. Each object contains the properties of the peering.
 
 ### parPrefix
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The Prefix to use for resource naming convention
+The Prefix to use for resource naming convention.
 
 ### parSuffix
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The Suffix to use for resource naming convention
+The Suffix to use for resource naming convention.
 
 ### parName
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-The name of the resource
+The name of the resource.
 
 - Default value: `[format('{0}vnet{1}', parameters('parPrefix'), parameters('parSuffix'))]`
 
@@ -138,8 +138,7 @@ Array of objects of subnets in a Virtual Network. Each object contains the prope
 
 ![Parameter Setting](https://img.shields.io/badge/parameter-optional-green?style=flat-square)
 
-Array of objects of Virtual Network Peerings. Each object contains the properties of the peering. Possible values are:
-
+Array of objects of Virtual Network Peerings. Each object contains the properties of the peering.
 
 ## Outputs
 
