@@ -37,11 +37,8 @@ The commit hash or branch name to compare changes to. If not specified, it will 
 .PARAMETER registryLoginServer
 The login server for the Azure Container Registry.
 
-.PARAMETER documentationUri
-The URI for the documentation of the Bicep module.
-
 .EXAMPLE
-Publish-ChangedModule -registryLoginServer "myregistry.azurecr.io" -documentationUri "https://myregistry.azurecr.io/docs" -Verbose
+Publish-ChangedModule -registryLoginServer "myregistry.azurecr.io" -Verbose
 Publishes all changed Bicep modules to the specified Azure Container Registry.
 
 .NOTES
@@ -58,9 +55,6 @@ function Publish-ChangedModule {
 
     [Parameter(Mandatory = $true)]
     [string]$registryLoginServer,
-
-    [Parameter(Mandatory = $true)]
-    [string]$documentationUri
   )
   $changedBicepFiles = Get-ChangedModule -fromCommit $fromCommit -toCommit $toCommit
 
@@ -106,7 +100,7 @@ function Publish-ChangedModule {
     # Publish the .bicep file to the ACR with the semver tag
     if ($PSCmdlet.ShouldProcess("$file", "Publish to ACR with tag $version")) {
       try {
-        Publish-AzBicepModule -FilePath $file -Target $target# -DocumentationUri $documentationUri
+        Publish-AzBicepModule -FilePath $file -Target $target
       }
       catch {
         if ($_.Exception.Message) {
