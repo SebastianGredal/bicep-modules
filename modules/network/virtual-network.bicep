@@ -13,7 +13,7 @@ param parPrefix string = ''
 @description('The Suffix to use for resource naming convention.')
 param parSuffix string = ''
 
-@description('The name of the resource.')
+@description('The Name of the resource.')
 param parName string = '${parPrefix}vnet${parSuffix}'
 
 @description('The Azure Region to deploy the resources into.')
